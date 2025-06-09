@@ -1,0 +1,39 @@
+{
+  "name": "e-commerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon backend/server.js",
+    "seed:products": "node backend/seeds/product.js",
+    "build": "npm install && npm install --prefix frontend/e-commerce && npm run build --prefix frontend/e-commerce",
+    "start": "node backend/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@prisma/client": "^6.5.0",
+    "axios": "^1.8.4",
+    "bottleneck": "^2.19.5",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.1",
+    "express-useragent": "^1.0.15",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "react-hot-toast": "^2.5.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "nodemon": "^3.1.9",
+    "postcss": "^8.5.3",
+    "prisma": "^6.5.0",
+    "tailwindcss": "^3.4.17"
+  }
+}
