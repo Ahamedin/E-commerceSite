@@ -5,7 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import session from "express-session";
-import passport from "./config/passport.js"; // Make sure this file imports & calls passport.use(...)
+import passport from "./config/passport.js"; // Ensure this is properly configured
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/auth.js";
 import securityMiddleware from "./lib/ratelimit.js";
@@ -19,30 +19,38 @@ const __dirname = path.resolve();
 // Logging port
 console.log("Server running on port", PORT);
 
-// Session setup (must come BEFORE passport)
+// Session setup
 app.use(session({
   secret: process.env.SESSION_SECRET || 'default_secret',
   resave: false,
   saveUninitialized: false,
 }));
 
-// Initialize passport (must be after session)
+// Passport initialization
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Middleware
 app.use(helmet({ contentSecurityPolicy: false }));
-app.use(cors({
-  origin: "http://localhost:5000", // frontend origin
-  credentials: true,              // allow cookies
-}));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(securityMiddleware);
 
+// ✅ UPDATED CORS SETTINGS
+const allowedOrigins = [
+  "http://localhost:3000", // Local frontend
+  "https://e-commercesite-6g9s.onrender.com", // Deployed frontend
+];
+
+app.use(cors({
+  origin: ["http://localhost:3000", "https://e-commercesite-6g9s.onrender.com"],
+  credentials: true
+}));
+
+
 // Routes
 app.use("/api/products", productRoutes);
-app.use("/auth", authRoutes); // Google Auth routes
+app.use("/auth", authRoutes);
 
 // Serve frontend in production
 if (process.env.NODE_ENV === "production") {
@@ -52,12 +60,12 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// 404 Handler
+// 404 fallback
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });

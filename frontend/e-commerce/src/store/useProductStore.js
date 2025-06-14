@@ -2,7 +2,10 @@ import { create } from "zustand";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
-const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5000" : "";
+const BASE_URL = import.meta.env.MODE === "development"
+  ? "http://localhost:5000"
+  : "https://e-commercesite-6g9s.onrender.com/"; // <-- Replace with your actual backend deployment URL
+
 
 export const useProductStore = create((set,get) => ({
     products:[],
